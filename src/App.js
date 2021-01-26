@@ -1,28 +1,62 @@
 import React, {Component} from 'react';
+import { Button } from 'react-bootstrap';
 import './App.css';
-import Home from './components/Home';
-import Button from './components/Button';
-
-var arr = [];
 
 class App extends Component {
+  
   constructor(props) {
     super(props)
     
     this.state = {
-      searchTerm: ''                       
-    }    
+      searchTerm: ''                             
+    }   
 
-  }   
+    this.arr = [];
+
+    this.handleSearchChange = this.handleSearchChange.bind(this);    
+    this.searchGit = this.searchGit.bind(this);
+    this.displayResults = this.displayResults.bind(this);
+
+  }     
 
   handleSearchChange = (event) => { //change variable as it is entered
     this.setState({
         searchTerm: event.target.value
       }
-    )
+    )    
   }  
 
-  displayResults = resLength => { //get area to inject search results dynamically and add html to describe every search result
+  searchGit = async () => { //retrieve data, convert to json and store items in array for easy access 
+    try {
+      const res = await fetch(`https://api.github.com/search/repositories?q=${this.state.searchTerm}`)
+      let data = await res.json();
+      this.arr = data.items;  
+      if(data.items < 1) { //make sure results are found by checking the length of the json items array
+        const container = document.getElementById('results');
+        container.innerHTML = `
+          <div class="container">
+            <div class="card">          
+              No results were found        
+            </div>
+          </div> 
+        `;
+      } else {
+        this.displayResults(this.arr.length);  
+      }        
+      
+    } catch (err) { //make sure that if nothing is searched this message is displayed
+      const container = document.getElementById('results');
+      container.innerHTML = `
+      <div class="container">
+        <div class="card">          
+          Enter a search term         
+        </div>
+      </div> 
+      `;
+    }    
+  } 
+
+  displayResults = resLength => { //get result area to inject search results dynamically and add html to describe every search result
     const container = document.getElementById('results');
     container.innerHTML = '';
 
@@ -32,13 +66,13 @@ class App extends Component {
       <div class="container">
         <div class="card">
           <div class="front">            
-            <h2>${arr[itmNo].name}</h2>
-            <h3>${arr[itmNo].owner.login}</h3>
-            <p>URL : <a href=${arr[itmNo].html_url}>${arr[itmNo].html_url}</a> </p>
-            <p>Description:${'  ' + arr[itmNo].description}</p>
-            <p>Forks:${'        ' + arr[itmNo].forks_count}</p>
-            <p>Stargazers:${'   ' + arr[itmNo].stargazers_count}</p>
-            <p>Open Issues:${'  ' + arr[itmNo].open_issues}</p>
+            <h2>${this.arr[itmNo].name}</h2>
+            <h3>${this.arr[itmNo].owner.login}</h3>
+            <p>URL : <a href=${this.arr[itmNo].html_url}>${this.arr[itmNo].html_url}</a> </p>
+            <p>Description:${'  ' + this.arr[itmNo].description}</p>
+            <p>Forks:${'        ' + this.arr[itmNo].forks_count}</p>
+            <p>Stargazers:${'   ' + this.arr[itmNo].stargazers_count}</p>
+            <p>Open Issues:${'  ' + this.arr[itmNo].open_issues}</p>
           </div>          
         </div>
       </div>        
@@ -46,32 +80,27 @@ class App extends Component {
 
       container.innerHTML += content;            
     }
-  }   
-  
-  searchGit = () => { //retrieve data, convert to json and store items in array for easy access   
-    fetch(`https://api.github.com/search/repositories?q=${this.state.searchTerm}`)
-      .then(res => res.json())
-      .then(data => {
-        arr = data.items;        
-        this.displayResults(arr.length);               
-      }
-    ) 
   }  
 
-  render () { //render homescreen, search button and result area to display data to be injected later
+  render () { //render title, search button and result area to display data to be injected later
     return (      
       <div className="App">        
-        <Home name="gitoSearch" />
+        <div>
+          <h1>
+            gitoSearch
+          </h1>
+        </div>
         <form> 
             <div>
-                <input 
+                <input
                 type='text' 
+                id='searchfield'
                 value={this.state.searchTerm} 
-                onChange={this.handleSearchChange.bind(this)}                 
+                onChange={this.handleSearchChange}                                                       
                 />                             
             </div>
         </form>         
-        <Button id="SearchBtn" btnName="Search Github" btnFunk={this.searchGit.bind(this)} />  
+        <Button id="SearchBtn" value="Search Github" onClick={this.searchGit}>Search Github</Button>         
         <div id="results">                                         
         </div>                                                    
       </div>       
