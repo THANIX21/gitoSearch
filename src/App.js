@@ -13,9 +13,11 @@ class App extends Component {
 
     this.arr = [];
 
-    this.handleSearchChange = this.handleSearchChange.bind(this);    
+    this.handleSearchChange = this.handleSearchChange.bind(this);  
+    this.handleEnterPress = this.handleEnterPress.bind(this);  
     this.searchGit = this.searchGit.bind(this);
     this.displayResults = this.displayResults.bind(this);
+
 
   }     
 
@@ -24,10 +26,17 @@ class App extends Component {
         searchTerm: event.target.value
       }
     )    
-  }  
+  }
+  
+  handleEnterPress = (event) => {
+    if(event.keyCode === 13){
+      this.searchGit();
+    }    
+  }
 
   searchGit = async () => { //retrieve data, convert to json and store items in array for easy access 
     try {
+
       const res = await fetch(`https://api.github.com/search/repositories?q=${this.state.searchTerm}`)
       let data = await res.json();
       this.arr = data.items;  
@@ -40,11 +49,15 @@ class App extends Component {
             </div>
           </div> 
         `;
+
       } else {
-        this.displayResults(this.arr.length);  
+
+        this.displayResults(this.arr.length); 
+         
       }        
       
     } catch (err) { //make sure that if nothing is searched this message is displayed
+
       const container = document.getElementById('results');
       container.innerHTML = `
       <div class="container">
@@ -53,6 +66,7 @@ class App extends Component {
         </div>
       </div> 
       `;
+      
     }    
   } 
 
@@ -89,17 +103,16 @@ class App extends Component {
           <h1>
             gitoSearch
           </h1>
-        </div>
-        <form> 
-            <div>
-                <input
-                type='text' 
-                id='searchfield'
-                value={this.state.searchTerm} 
-                onChange={this.handleSearchChange}                                                       
-                />                             
-            </div>
-        </form>         
+        </div>        
+          <div>
+            <input
+              type='text' 
+              id='searchfield'
+              value={this.state.searchTerm} 
+              onKeyDown={this.handleEnterPress}
+              onChange={this.handleSearchChange}                                                       
+            />                             
+        </div>                
         <Button id="SearchBtn" value="Search Github" onClick={this.searchGit}>Search Github</Button>         
         <div id="results">                                         
         </div>                                                    
