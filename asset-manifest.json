@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/gitoSearch/static/css/main.df0b853e.chunk.css",
+    "main.css": "/gitoSearch/static/css/main.c9db411c.chunk.css",
     "main.js": "/gitoSearch/static/js/main.6d34faf4.chunk.js",
     "main.js.map": "/gitoSearch/static/js/main.6d34faf4.chunk.js.map",
     "runtime-main.js": "/gitoSearch/static/js/runtime-main.d00f0b28.js",
@@ -10,13 +10,13 @@
     "static/js/3.c906ae3d.chunk.js": "/gitoSearch/static/js/3.c906ae3d.chunk.js",
     "static/js/3.c906ae3d.chunk.js.map": "/gitoSearch/static/js/3.c906ae3d.chunk.js.map",
     "index.html": "/gitoSearch/index.html",
-    "static/css/main.df0b853e.chunk.css.map": "/gitoSearch/static/css/main.df0b853e.chunk.css.map",
+    "static/css/main.c9db411c.chunk.css.map": "/gitoSearch/static/css/main.c9db411c.chunk.css.map",
     "static/js/2.6525f3ba.chunk.js.LICENSE.txt": "/gitoSearch/static/js/2.6525f3ba.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.d00f0b28.js",
     "static/js/2.6525f3ba.chunk.js",
-    "static/css/main.df0b853e.chunk.css",
+    "static/css/main.c9db411c.chunk.css",
     "static/js/main.6d34faf4.chunk.js"
   ]
 }
