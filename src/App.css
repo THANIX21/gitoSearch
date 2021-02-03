@@ -42,8 +42,7 @@ body {
   height: 100%;
   background: rgb(99, 99, 99);
   transform-style: preserve-3d;
-  transition: all 0.001s ease; 
-  opacity: 1; 
+  transition: all 0.001s ease;   
 }
 
 .card:hover {
