@@ -14,11 +14,10 @@ class App extends Component {
     this.arr = [];
 
     this.handleSearchChange = this.handleSearchChange.bind(this);  
-    this.handleEnterPress = this.handleEnterPress.bind(this);  
-    this.handleCardPress = this.handleCardPress.bind(this);
+    this.handleEnterPress = this.handleEnterPress.bind(this);
+    this.showIssues = this.showIssues.bind(this);
     this.searchGit = this.searchGit.bind(this);
     this.displayResults = this.displayResults.bind(this);
-
 
   }     
 
@@ -33,11 +32,10 @@ class App extends Component {
     if(event.keyCode === 13){
       this.searchGit();
     }    
-  }
+  }  
 
-  handleCardPress = (event) => {
-     const detailCard = document.getElementById(event.target.id);    
-     console.log(detailCard.id);
+  showIssues = () => {  
+    console.log("woking?"); 
   }
 
   searchGit = async () => { //retrieve data, convert to json and store items in array for easy access 
@@ -45,6 +43,7 @@ class App extends Component {
 
       const res = await fetch(`https://api.github.com/search/repositories?q=${this.state.searchTerm}`)
       let data = await res.json();
+      //console.log(data);
       this.arr = data.items;  
       if(data.items < 1) { //make sure results are found by checking the length of the json items array
         const container = document.getElementById('results');
@@ -86,8 +85,9 @@ class App extends Component {
       <div class="container">
         <div class="card" id="${itmNo}">  
           <div class="front">            
-            <h2>${this.arr[itmNo].name}</h2>
-            <h3>${this.arr[itmNo].owner.login}</h3>                        
+            <h1>${this.arr[itmNo].name}</h1>
+            <p>by ${this.arr[itmNo].owner.login}</p> 
+            <p style="color:#7604E7"; >${this.arr[itmNo].language}</p>                     
           </div>  
           <div class="back">
             <p>URL : <a href=${this.arr[itmNo].html_url}>${this.arr[itmNo].html_url}</a> </p>
@@ -95,11 +95,11 @@ class App extends Component {
             <p>Forks:${'        ' + this.arr[itmNo].forks_count}</p>
             <p>Stargazers:${'   ' + this.arr[itmNo].stargazers_count}</p>
             <p>Open Issues:${'  ' + this.arr[itmNo].open_issues}</p>   
+            <button>View Issues</button>
           </div>        
         </div>
       </div>        
-      `;
-      
+      `;      
 
       container.innerHTML += content;            
     }
@@ -122,7 +122,7 @@ class App extends Component {
             onChange={this.handleSearchChange}                                                       
           />                             
         </div>                
-        <Button id="SearchBtn" value="Search Github" onClick={this.searchGit}>Search Github</Button>         
+        <Button id="SearchBtn" onClick={this.searchGit}>Search Github</Button>                      
         <div class="resultbox" id="results">                                                                                       
         </div>                                                    
       </div>       
