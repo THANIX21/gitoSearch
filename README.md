@@ -2,10 +2,12 @@
 
 A simple search engine for github respositories using React.js
 
-##Technologies
+##Technologies used
 
-Javascript
-HTML
-CSS
+-Javascript
+
+-HTML
+
+-CSS
 
 
