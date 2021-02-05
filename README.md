@@ -1,8 +1,8 @@
-#gitoSearch - a github repository search engine
+# gitoSearch - a github repository search engine
 
 A simple search engine for github respositories using React.js
 
-##Technologies used
+## Technologies used
 
 -Javascript
 
